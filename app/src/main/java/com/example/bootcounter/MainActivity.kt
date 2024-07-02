@@ -27,10 +27,9 @@ class MainActivity : AppCompatActivity() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                refreshUiDependingOnNotificationPermissionState()
-                scheduleNotificationsPosting()
+                updateStateDependingOnNotificationsPermissions()
             } else {
-                refreshUiDependingOnNotificationPermissionState()
+                updateStateDependingOnNotificationsPermissions()
                 // todo: stopNotificationsPosting()
             }
         }
@@ -71,14 +70,15 @@ class MainActivity : AppCompatActivity() {
     // todo: handle a case when user selected "don't ask again" or denied permission twice
     override fun onResume() {
         super.onResume()
-        refreshUiDependingOnNotificationPermissionState()
+        updateStateDependingOnNotificationsPermissions()
     }
 
-    private fun refreshUiDependingOnNotificationPermissionState() {
+    private fun updateStateDependingOnNotificationsPermissions() {
         if (notificationsPermissionsUseCase.isNotificationPermissionGranted(this)) {
             statusField.setText(R.string.okay_to_show_notifications)
             requestNotificationsPermissionButton.isVisible = false
             triggerTestNotification.isVisible = true
+            scheduleNotificationsPosting()
         } else if (notificationsPermissionsUseCase.shouldShowRequestPermissionRationale(this)) {
             statusField.setText(R.string.you_need_to_enable_notifications)
             requestNotificationsPermissionButton.isVisible = true
