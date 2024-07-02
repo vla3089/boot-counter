@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,7 +51,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         triggerTestNotification.setOnClickListener {
-            ShowBootNotificationUseCase.showBootReceivedNotification(this, 0)
+            // just for tests, should be removed
+            runBlocking {
+                (application as BootCounterApplication).appComponent.showBootNotificationUseCase.showBootReceivedNotification(
+                    this@MainActivity
+                )
+            }
         }
     }
 
