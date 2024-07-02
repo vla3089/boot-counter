@@ -12,6 +12,8 @@ class BootReceiver : BroadcastReceiver() {
             (context as BootCounterApplication).appComponent.repo.addBootEvent(
                 BootEvent(LocalDateTime.now())
             )
+
+            // todo: Restore the notification with the updated information on the boot event ONLY IF the notification was present before the (re)boot.
         }
     }
 }

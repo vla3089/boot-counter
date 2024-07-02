@@ -10,7 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import kotlinx.coroutines.runBlocking
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,8 +28,10 @@ class MainActivity : AppCompatActivity() {
         ) { isGranted: Boolean ->
             if (isGranted) {
                 refreshUiDependingOnNotificationPermissionState()
+                scheduleNotificationsPosting()
             } else {
                 refreshUiDependingOnNotificationPermissionState()
+                // todo: stopNotificationsPosting()
             }
         }
 
@@ -58,6 +64,8 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+
+        // todo: clean up temp code, and display list of boot events in RecyclerView
     }
 
     // todo: handle a case when user selected "don't ask again" or denied permission twice
@@ -80,5 +88,14 @@ class MainActivity : AppCompatActivity() {
             requestNotificationsPermissionButton.isVisible = true
             triggerTestNotification.isVisible = false
         }
+    }
+
+    private fun scheduleNotificationsPosting() {
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "showNotifications",
+            ExistingPeriodicWorkPolicy.KEEP,
+            PeriodicWorkRequestBuilder<ShowNotificationWorker>(15, TimeUnit.MINUTES)
+                .build()
+        )
     }
 }
