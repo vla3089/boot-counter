@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Boot Counter</string>
+    <string name="trigger_test_notification">Trigger test notification</string>
 </resources>

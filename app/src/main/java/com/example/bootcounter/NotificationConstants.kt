@@ -4,3 +4,4 @@ package com.example.bootcounter
 const val NOTIFICATIONS_CHANNEL_ID = "MY_CHANNEL_ID"
 const val NOTIFICATIONS_CHANNEL = "MyChannel"
 const val NOTIFICATIONS_CHANNEL_DESCRIPTION = "Channel description"
+const val BOOT_RECEIVED_NOTIFICATION_ID = 2
