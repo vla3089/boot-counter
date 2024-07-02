@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Boot Counter</string>
     <string name="trigger_test_notification">Trigger test notification</string>
+    <string name="okay_to_show_notifications">Status: Okay to show notifications</string>
+    <string name="you_need_to_enable_notifications">Status: You need to enable notifications</string>
+    <string name="request_notifications_permission">Request notifications permission</string>
 </resources>
