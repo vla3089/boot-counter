@@ -3,8 +3,7 @@ package com.example.bootcounter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.joda.time.Minutes
-import java.text.SimpleDateFormat
-import java.util.Locale
+import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
 // add unit tests
@@ -14,9 +13,8 @@ class GetNotificationBodyUseCase @Inject constructor(private val repo: BootCount
      * The DateTimeFormatter pattern YYYY returns the week based year, not the era-based year.
      * This means that 12/29/2019 will format to 2019, but 12/30/2019 will format to 2020!
      */
-    private val dateFormatter = SimpleDateFormat(
-        "DD/MM/yyyy HH:MM:SS", Locale.getDefault()
-    )
+    private val dateFormatter = DateTimeFormat.forPattern(
+        "DD/MM/yyyy HH:MM:SS")
 
     /**
      * suspend as storage call should be asynchronous
@@ -27,7 +25,7 @@ class GetNotificationBodyUseCase @Inject constructor(private val repo: BootCount
         return@withContext if (count <= 0) {
             "No boots detected"
         } else if (count == 1) {
-            val formattedDate = dateFormatter.format(snapshot.last().bootTime)
+            val formattedDate = dateFormatter.print(snapshot.last().bootTime)
             "The boot was detected = $formattedDate"
         } else {
             val lastDate = snapshot.last()
